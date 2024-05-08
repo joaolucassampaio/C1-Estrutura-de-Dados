@@ -17,7 +17,7 @@ struct descriptor {
 };
 
 int main(int argc, char *argv[]) {
-	struct node *lista, *p, *q, *r; //Definição de ponteiros auxiliares para manipulação dos nós
+	struct node *lista, *p; //Definição de ponteiros auxiliares para manipulação dos nós
 	struct descriptor *d; //Definição de um ponteiro auxiliar para manipulação do descritor
 	int quantifyNode; //Definição de uma variável inteira para armazenar a quantidade de nós a serem inseridos na lista
 	int count = 0; //Definição uma variável inteira para contagem de iterações
