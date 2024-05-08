@@ -1,60 +1,59 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h> //Definição da biblioteca para acesso aos números aleatórios
+#include <time.h> //DefiniÃ§Ã£o da biblioteca para acesso aos nÃºmeros aleatÃ³rios
 
-//Definição da estrutura básica de um nó
+//DefiniÃ§Ã£o da estrutura bÃ¡sica de um nÃ³
 struct node {
-	int info; //Campo do conteúdo da célula
-	struct node *next; //Campo do endereço da célula seguinte
+	int info; //Campo do conteÃºdo da cÃ©lula
+	struct node *next; //Campo do endereÃ§o da cÃ©lula seguinte
 };
 
-//Definição da estrutura básica de um descritor
-//É uma estrutura cuja função é fornecer informações sobre a lista encadeada
+//DefiniÃ§Ã£o da estrutura bÃ¡sica de um descritor
+//Ã‰ uma estrutura cuja funÃ§Ã£o Ã© fornecer informaÃ§Ãµes sobre a lista encadeada
 struct descriptor {
-	int size; //Tamanho total da lista (Número total de nós)
-	struct node *first; //Ponteiro para o primeiro nó da lista
-	struct node *last; //Ponteiro para o último nó da lista
+	int size; //Tamanho total da lista (NÃºmero total de nÃ³s)
+	struct node *first; //Ponteiro para o primeiro nÃ³ da lista
+	struct node *last; //Ponteiro para o Ãºltimo nÃ³ da lista
 };
 
 int main(int argc, char *argv[]) {
-	struct node *lista, *p, *q, *r; //Definição de ponteiros auxiliares para manipulação dos nós
-	struct descriptor *d; //Definição de um ponteiro auxiliar para manipulação do descritor
-	int quantifyNode; //Definição de uma variável inteira para armazenar a quantidade de nós a serem inseridos na lista
-	int count = 0; //Definição uma variável inteira para contagem de iterações
+	struct node *lista, *p, *q, *r; //DefiniÃ§Ã£o de ponteiros auxiliares para manipulaÃ§Ã£o dos nÃ³s
+	struct descriptor *d; //DefiniÃ§Ã£o de um ponteiro auxiliar para manipulaÃ§Ã£o do descritor
+	int quantifyNode; //DefiniÃ§Ã£o de uma variÃ¡vel inteira para armazenar a quantidade de nÃ³s a serem inseridos na lista
+	int count = 0; //DefiniÃ§Ã£o uma variÃ¡vel inteira para contagem de iteraÃ§Ãµes
 	
-	//d recebe o endereço da memória onde uma nova instância da estrutura básica de um descritor está sendo alocada dinamicamente
+	//d recebe o endereÃ§o da memÃ³ria onde uma nova instÃ¢ncia da estrutura bÃ¡sica de um descritor estÃ¡ sendo alocada dinamicamente
 	d = malloc(sizeof(struct descriptor));
-	//Campos size, first e last são inicializados indicando que a lista está vazia
+	//Campos size, first e last sÃ£o inicializados indicando que a lista estÃ¡ vazia
 	d->size = 0;
 	d->first = NULL;
 	d->last = NULL;
 	
-	//Obtendo quantidade de nós:
+	//Obtendo quantidade de nÃ³s:
 	printf("Quantos nos voce deseja adicionar a lista? Digite um numero inteiro: ");
 	scanf("%i", &quantifyNode);
 	printf("\nAdicionando %d nos a lista: \n", quantifyNode);
 		
-	//Inicializa o gerador de números pseudoaleatórios (RNG - Random Number Generator)
+	//Inicializa o gerador de nÃºmeros pseudoaleatÃ³rios (RNG - Random Number Generator)
 	srand(time(NULL));
 	
-	//Looping do-while que executa até que o número desejado de nós seja inserido na lista encadeada
-	do {
-		//É criado um novo nó que recebe um valor aleatório e é colocado no início da fila
-		//p recebe o endereço da memória onde uma nova instância da estrutura básica de um nó está sendo alocada dinamicamente
+	//Looping while que executa atÃ© que o nÃºmero desejado de nÃ³s seja inserido na lista encadeada
+	while(count < quantifyNode) {
+		//Ã‰ criado um novo nÃ³ que recebe um valor aleatÃ³rio e Ã© colocado no inÃ­cio da fila
+		//p recebe o endereÃ§o da memÃ³ria onde uma nova instÃ¢ncia da estrutura bÃ¡sica de um nÃ³ estÃ¡ sendo alocada dinamicamente
 		p = malloc(sizeof(struct node));
-		//Inserção à esquerda:
-		p->info = rand()%99; // Número aleatório de 0 à 98
+		//InserÃ§Ã£o Ã  esquerda:
+		p->info = rand()%99; // NÃºmero aleatÃ³rio de 0 Ã  98
 		p->next = lista;
 		lista = p;
 		
-		//Ordenação dos nós
+		//OrdenaÃ§Ã£o dos nÃ³s
 		if(d->first == NULL || p->info <= d->first->info) { // Se a lista estiver vazia ou o valor for menor que o primeiro elemento
 			p->next = d->first;
 			d->first = p;
 		} else {
 			struct node *current = d->first;
-			//Encontra o ponto de inserção na lista
-			while(current->next != NULL && current->next->info < p->info) {
+			while(current->next != NULL && current->next->info < p->info) { //Encontra o ponto de inserÃ§Ã£o na lista
 				current = current->next;
 			}
 			p->next = current->next;
@@ -64,7 +63,16 @@ int main(int argc, char *argv[]) {
 		d->size++;
 		count++;
 		printf("%i ", p->info);
-	} while(count < quantifyNode);	
+	};	
+	
+	//Encontrar o Ãºltimo nÃ³ da lista
+	struct node *last_node = d->first;
+	while (last_node->next != NULL) {
+	    last_node = last_node->next;
+	}
+	
+	//Atribuir o Ãºltimo nÃ³ encontrado a d->last
+	d->last = last_node;
 	
 	printf("\n");
 	printf("\nLista ordenada:\n");
@@ -76,7 +84,7 @@ int main(int argc, char *argv[]) {
 	}	
 	printf("\n");
 	
-	//Calcular o valor médio dos nós na lista
+	//Calcular o valor mÃ©dio dos nÃ³s na lista
 	temp = d->first;
     int soma = 0;
     while (temp != NULL) {
@@ -87,7 +95,7 @@ int main(int argc, char *argv[]) {
     printf("\nValor medio:\n");
 	printf("%.2f\n", media);
 	
-	//Remover o primeiro nó com valor imediatamente superior ao valor médio
+	//Remover o primeiro nÃ³ com valor imediatamente superior ao valor mÃ©dio
     struct node *anterior = NULL;
     struct node *atual = d->first;
     while (atual != NULL && atual->info <= media) {
